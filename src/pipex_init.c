@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 10:31:28 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:02:39 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
  * B. multiple pipes support
  * B. heredoc support
 */
-int		argc_handler(int argc, char **argv)
+int	argc_handler(int argc, char **argv)
 {
 	if (argc != 5)
 	{

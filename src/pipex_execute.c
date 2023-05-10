@@ -6,30 +6,16 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 10:55:54 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:02:14 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 //	Execute the command in the child process
-/* TODO
- * 3. check if it is the first process
- * 3a. if proc==0, check if the infile is readable
- * 3aa. if the infile is readable, open the file and dup2 it to stdin
- * 3aX. if the infile is not readable, exit with status 2
- * 3b. if proc!=0, dup2 the previous pipe to stdin (write end)
- * 4. check if it is the last process
- * 4a. if proc==pipex->proc-1, check if the file is writable
- * 4aa. if the file is writable, open the file and dup2 it to stdout
- * 4aX. if the file is not writable, exit with status 2
- * 4b. if proc!=pipex->proc-1, dup2 the current pipe to stdout (read end)
- * 5. close the pipe and all files, leaving only STDIN and STDOUT open
- * 6. execve the command
-*/
 void	pipex_exec(t_pipex *pipex, int pnum)
 {
-	int	fd[2]
+	int	fd[2];
 
 	find_executable(pipex, &pipex->proc[pnum]);
 	if (pnum == 0)
@@ -42,15 +28,16 @@ void	pipex_exec(t_pipex *pipex, int pnum)
 	}
 	else
 		fd[0] = pipex->proc[pnum - 1].pipe[0];
-	fd[1] = pipex->proc[pnum].pipe[1];
 	if (pnum == pipex->pcnt - 1)
 	{
 		file_acccess(pipex->filename[1], W_OK, pipex);
 		fd[1] = open(pipex->filename[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd[1] == -1)
-			pipex_error(pipex, "open", errno, 1
+			pipex_error(pipex, "open", errno, 1);
 		ft_lstadd_back(&pipex->openfd, ft_lstnew(&fd));
 	}
+	else
+		fd[1] = pipex->proc[pnum].pipe[1];
 	dup2stdio_close(fd, pipex);
 	execve(pipex->proc[pnum].cmd[0], pipex->proc[pnum].cmd, pipex->envp);
 }
@@ -78,6 +65,7 @@ void	find_executable(t_pipex *pipex, t_process *proc)
 	file_access(proc->cmd[0], X_OK, pipex);
 }
 
+//	Check if the file is accessible
 void	file_access(char *filename, int accmode, t_pipex *pipex)
 {
 	int	fd;
@@ -97,6 +85,7 @@ void	file_access(char *filename, int accmode, t_pipex *pipex)
 		pipex_error(pipex, filename, 2, 1);
 }
 
+//	Redirect the standard input and output to the pipe and close the open file
 void	dup2stdio_close(int fd[2], t_pipex *pipex)
 {
 	t_list	*tmp;
