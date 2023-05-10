@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 09:42:02 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 09:58:55 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_pipex
 	int			pcnt;
 	char		*filename[2];
 	char		**envp;
+	char		**path;
 	t_process	*proc;
 	t_list		*openfd;
 }				t_pipex;
@@ -42,6 +43,7 @@ typedef struct s_pipex
 // pipex_init.c
 void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp);
 int		argc_handler(int argc, char **argv);
+char	**get_path_from_envp(t_pipex *pipex, char **envp);
 
 // pipex_execute.c
 void	pipex_exec(t_pipex *pipex, int pnum);
