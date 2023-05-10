@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 12:38:31 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 13:36:46 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 typedef struct s_process
 {
 	int		pipe[2];
-	int		pid;
+	pid_t	pid;
 	char	**cmd;
 }				t_process;
 
@@ -50,6 +50,20 @@ typedef struct s_pipex
 	t_list		*openfd;
 }				t_pipex;
 
+enum e_error
+{
+	ARGC_ERROR,
+	PIPE_ERROR,
+	FORK_ERROR,
+	CMD_ERROR,
+	FILE_ERROR,
+	ACCESS_ERROR,
+	OPEN_ERROR,
+	CLOSE_ERROR,
+	EXEC_ERROR,
+	ALLOC_ERROR,
+};
+
 // pipex_init.c
 void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp);
 int		argc_handler(int argc, char **argv);
@@ -62,7 +76,9 @@ void	file_access(char *filename, int accmode, t_pipex *pipex);
 void	dup2stdio_close(int fd[2], t_pipex *pipex);
 
 void	pipex_free(t_pipex *pipex);
-void	pipex_error(t_pipex *pipex, char *msg, int err, int exitno);
+
+// pipex_error.c
+void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int exitno);
 
 // arg_split.c
 char	**arg_split(char *arg, t_pipex *pipex);
