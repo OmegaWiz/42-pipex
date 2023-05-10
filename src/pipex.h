@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 09:58:55 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:14:24 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,13 @@ int		argc_handler(int argc, char **argv);
 char	**get_path_from_envp(t_pipex *pipex, char **envp);
 
 // pipex_execute.c
-void	pipex_exec(t_pipex *pipex, int pnum);
+void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum);
+void	find_executable(t_pipex *pipex, int pnum);
 
 void	pipex_free(t_pipex *pipex);
 void	pipex_error(t_pipex *pipex, char *msg, int err, int exitno);
+
+// ft-strprepend needs to add '/' between s2 and s1
+char	*ft_strprepend(char *s1, char *s2);
 
 #endif

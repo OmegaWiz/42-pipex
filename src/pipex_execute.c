@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 09:41:56 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:18:44 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 //	Execute the command in the child process
 /* TODO
- * 1. check if the command is in PATH or not
- * 1a. if in PATH, check if the command is in PATH and join it with the command
- * 1b. if not in PATH, check if the command is in the current directory
- * 1X. if the command is not found, exit with status 127
- * 2. if the command is found, check if the file is executable
- * 2X. if the file is not executable, exit with status 126
  * 3. check if it is the first process
  * 3a. if proc==0, check if the file is readable
  * 3aa. if the file is readable, open the file and dup2 it to stdin
@@ -35,4 +29,31 @@
 */
 void	pipex_exec(t_pipex *pipex, int pnum)
 {
+	find_executable(pipex, &pipex->proc[pnum]);
+}
+
+//	Find the executable and check its permission
+void	find_executable(t_pipex *pipex, t_process *proc)
+{
+	int		i;
+	char	*newpath;
+
+	if (!ft_strchr(proc->cmd[0], '/'))
+	{
+		i = -1;
+		newpath = proc->cmd[0];
+		proc->cmd[0] = NULL;
+		while (pipex->path[++i] && !proc->cmd[0])
+		{
+			newpath = ft_strprepend(newpath, pipex->path[i]);
+			if (access(proc->cmd[0], F_OK) == 0)
+				proc->cmd[0] = newpath;
+		}
+		if (!proc->cmd[0])
+			pipex_error(pipex, proc->cmd[0], 127, 1);
+	}
+	if (access(proc->cmd[0], F_OK) == -1)
+		pipex_error(pipex, proc->cmd[0], 127, 1);
+	else if (access(proc->cmd[0], X_OK) == -1)
+		pipex_error(pipex, proc->cmd[0], 126, 1);
 }
