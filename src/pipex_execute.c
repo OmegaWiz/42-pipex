@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 14:44:36 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:29:48 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
 	int	fd[2];
 
 	find_executable(pipex, &pipex->proc[pnum]);
+	ft_putendl_fd(proc->cmd[0], 1);
 	if (pnum == 0)
 	{
 		file_access(pipex->filename[0], R_OK, pipex);
@@ -47,17 +48,23 @@ void	find_executable(t_pipex *pipex, t_process *proc)
 {
 	int		i;
 	char	*newpath;
+	char	*tmp;
 
 	if (!ft_strchr(proc->cmd[0], '/'))
 	{
 		i = -1;
-		newpath = proc->cmd[0];
+		tmp = proc->cmd[0];
 		proc->cmd[0] = NULL;
 		while (pipex->path[++i] && !proc->cmd[0])
 		{
-			newpath = ft_strprepend(newpath, pipex->path[i]);
-			if (access(proc->cmd[0], F_OK) == 0)
+			newpath = ft_strprepend(tmp, pipex->path[i]);
+			ft_putendl_fd(newpath, 1);
+			if (access(newpath, X_OK) == 0)
+			{
 				proc->cmd[0] = newpath;
+				free(newpath);
+				break;
+			}
 		}
 		if (!proc->cmd[0])
 			pipex_error(pipex, proc->cmd[0], 127, 1);
@@ -72,7 +79,7 @@ void	file_access(char *filename, int accmode, t_pipex *pipex)
 
 	if (accmode == W_OK && access(filename, F_OK) == -1)
 	{
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		if (fd == -1)
 			pipex_error(pipex, filename, 2, 1);
 		fd = close(fd);

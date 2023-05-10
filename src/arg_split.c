@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 14:51:11 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:19:02 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	**arg_split(char *arg, t_pipex *pipex)
 			// ft_cleararr(cmd, k);
 			// pipex_error("Malloc failed");
 		}
+		k++;
 	}
 	cmd[k] = NULL;
 	return (cmd);
@@ -44,8 +45,8 @@ int	arg_count(char *arg, t_pipex *pipex)
 	int	cnt;
 
 	cnt = 0;
-	i = -1;
-	while (arg[++i])
+	i = 0;
+	while (arg[i])
 	{
 		while (arg[i] && is_ws_or_brac(arg[i], 1))
 			i++;
