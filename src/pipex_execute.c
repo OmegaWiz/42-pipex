@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 09:40:34 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 09:41:56 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@
  * 5. close the pipe and all files, leaving only STDIN and STDOUT open
  * 6. execve the command
 */
-void	pipex_exec(t_pipex *pipex, int proc)
+void	pipex_exec(t_pipex *pipex, int pnum)
 {
 }

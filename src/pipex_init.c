@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 08:41:15 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 09:41:37 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 {
 	int	i;
 
-	pipex->proc = argc_handler(argc, argv);
+	pipex->pcnt = argc_handler(argc, argv);
 	pipex->filename[0] = argv[1];
 	pipex->filename[1] = argv[argc - 1];
 	pipex->envp = envp;
-	pipex->process = malloc(sizeof(t_process) * pipex->proc);
+	pipex->proc = malloc(sizeof(t_process) * pipex->pcnt);
 	if (!pipex->proc)
 		pipex_error(pipex, "malloc", errno, 1);
 	i = pipex->proc - 1;
 	while (--i >= 0)
 	{
-		if (pipe(pipex->process[i].pipe) == -1)
+		if (pipe(pipex->proc[i].pipe) == -1)
 			pipex_error(pipex, "pipe", errno, 1);
-		ft_lstadd_front(&pipex->openfd, ft_lstnew(pipex->process[i].pipe[0]));
-		ft_lstadd_front(&pipex->openfd, ft_lstnew(pipex->process[i].pipe[1]));
+		ft_lstadd_front(&pipex->openfd, ft_lstnew(pipex->proc[i].pipe[0]));
+		ft_lstadd_front(&pipex->openfd, ft_lstnew(pipex->proc[i].pipe[1]));
 	}
 }
