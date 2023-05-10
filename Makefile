@@ -6,13 +6,13 @@
 #    By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 10:18:10 by kkaiyawo          #+#    #+#              #
-#    Updated: 2023/05/10 10:18:58 by kkaiyawo         ###   ########.fr        #
+#    Updated: 2023/05/10 11:18:13 by kkaiyawo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	pipex
 
-SRCS			=	pipex.c pipex_init.c pipex_execute.c
+SRCS			=	pipex.c pipex_init.c pipex_execute.c arg_split.c
 LIBS			=	libft/libft.a
 
 SRC_DIR			=	./src/

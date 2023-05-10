@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 11:02:39 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:17:16 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,20 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 	pipex->proc = malloc(sizeof(t_process) * pipex->pcnt);
 	if (!pipex->proc)
 		pipex_error(pipex, "malloc", errno, 1);
-	i = pipex->proc - 1;
+	i = pipex->pcnt - 1;
 	while (--i >= 0)
 	{
 		if (pipe(pipex->proc[i].pipe) == -1)
 			pipex_error(pipex, "pipe", errno, 1);
 		ft_lstadd_front(&pipex->openfd, ft_lstnew(pipex->proc[i].pipe[0]));
 		ft_lstadd_front(&pipex->openfd, ft_lstnew(pipex->proc[i].pipe[1]));
+	}
+	while (++i < pipex->pcnt)
+	{
+		pipex->proc[i].pid = 0;
+		pipex->proc[i].cmd = arg_split(argv, i);
+		if (!pipex->proc[i].cmd)
+			pipex_error(pipex, "malloc", errno, 1);
 	}
 }
 

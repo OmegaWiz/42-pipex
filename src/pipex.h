@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 11:02:33 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:38:31 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ void	dup2stdio_close(int fd[2], t_pipex *pipex);
 
 void	pipex_free(t_pipex *pipex);
 void	pipex_error(t_pipex *pipex, char *msg, int err, int exitno);
+
+// arg_split.c
+char	**arg_split(char *arg, t_pipex *pipex);
+int		arg_count(char *arg, t_pipex *pipex);
+char	*arg_newsplit(char *arg, int *i);
+char	*arg_trunc_quote(char *arg, int j, int i);
+int		is_ws_or_brac(char c, int is_ws);
 
 // ft-strprepend needs to add '/' between s2 and s1
 char	*ft_strprepend(char *s1, char *s2);
