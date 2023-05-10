@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 14:21:01 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:57:42 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include<unistd.h>
 # include<fcntl.h>
 # include<stdio.h>
+# include<string.h>
 # include<sys/types.h>
 # include<sys/wait.h>
 # include<sys/errno.h>
@@ -33,6 +34,8 @@
 #  define STDERR_FILENO 2
 # endif
 
+# define BONUS 0
+
 typedef struct s_process
 {
 	int		pipe[2];
@@ -43,6 +46,7 @@ typedef struct s_process
 typedef struct s_pipex
 {
 	int			pcnt;
+	int			is_heredoc;
 	char		*filename[2];
 	char		**envp;
 	char		**path;
@@ -67,12 +71,12 @@ enum e_error
 // pipex_init.c
 void	null_init(t_pipex *pipex);
 void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp);
-int		argc_handler(int argc, char **argv);
+int		argc_handler(int argc, char **argv, t_pipex *pipex);
 char	**get_path_from_envp(t_pipex *pipex, char **envp);
 
 // pipex_execute.c
 void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum);
-void	find_executable(t_pipex *pipex, int pnum);
+void	find_executable(t_pipex *pipex, t_process *proc);
 void	file_access(char *filename, int accmode, t_pipex *pipex);
 void	dup2stdio_close(int fd[2], t_pipex *pipex);
 
@@ -87,11 +91,11 @@ void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int exitno);
 // arg_split.c
 char	**arg_split(char *arg, t_pipex *pipex);
 int		arg_count(char *arg, t_pipex *pipex);
-char	*arg_newsplit(char *arg, int *i);
-char	*arg_trunc_quote(char *arg, int j, int i);
+char	*arg_newsplit(char *arg, int *i, t_pipex *pipex);
+char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex);
 int		is_ws_or_brac(char c, int is_ws);
 
-// ft-strprepend needs to add '/' between s2 and s1
+// ft_strprepend.c
 char	*ft_strprepend(char *s1, char *s2);
 
 #endif
