@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:12:13 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 14:45:20 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:31:04 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,13 @@ void	ft_cleararr(char **arr)
 	int	i;
 
 	i = -1;
+	if (!arr)
+		return ;
 	while (arr[++i])
-		free(arr[i]);
-	free(arr);
+	{
+		if (arr[i])
+			free(arr[i]);
+	}
+	if (arr)
+		free(arr);
 }
