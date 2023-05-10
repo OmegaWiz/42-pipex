@@ -6,21 +6,32 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 11:17:16 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:11:43 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+void	null_init(t_pipex *pipex)
+{
+	pipex->pcnt = 0;
+	pipex->filename[0] = NULL;
+	pipex->filename[1] = NULL;
+	pipex->envp = NULL;
+	pipex->path = NULL;
+	pipex->proc = NULL;
+	pipex->openfd = NULL;
+}
+
 //	t_pipex initialization
 /* TODO
- * 1. cmd split
  * B. filename[] heredoc support
 */
 void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 {
 	int	i;
 
+	null_init(pipex);
 	pipex->pcnt = argc_handler(argc, argv);
 	pipex->filename[0] = argv[1];
 	pipex->filename[1] = argv[argc - 1];
@@ -39,7 +50,6 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 	}
 	while (++i < pipex->pcnt)
 	{
-		pipex->proc[i].pid = 0;
 		pipex->proc[i].cmd = arg_split(argv, i);
 		if (!pipex->proc[i].cmd)
 			pipex_error(pipex, "malloc", errno, 1);

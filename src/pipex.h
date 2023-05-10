@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 13:36:46 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:11:12 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ enum e_error
 };
 
 // pipex_init.c
+void	null_init(t_pipex *pipex);
 void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp);
 int		argc_handler(int argc, char **argv);
 char	**get_path_from_envp(t_pipex *pipex, char **envp);
