@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:12:13 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 14:22:38 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:45:20 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,8 @@ void	pipex_free(t_pipex *pipex)
 	{
 		while (++i < pipex->pcnt)
 		{
-			if (pipex->proc[i])
-			{
-				if (pipex->proc[i].cmd)
-					ft_cleararr(pipex->proc[i].cmd);
-			}
+			if (pipex->proc[i].cmd)
+				ft_cleararr(pipex->proc[i].cmd);
 		}
 		free(pipex->proc);
 	}

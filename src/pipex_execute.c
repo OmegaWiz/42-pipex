@@ -6,14 +6,14 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 11:02:14 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:44:36 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 //	Execute the command in the child process
-void	pipex_exec(t_pipex *pipex, int pnum)
+void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
 {
 	int	fd[2];
 
@@ -30,7 +30,7 @@ void	pipex_exec(t_pipex *pipex, int pnum)
 		fd[0] = pipex->proc[pnum - 1].pipe[0];
 	if (pnum == pipex->pcnt - 1)
 	{
-		file_acccess(pipex->filename[1], W_OK, pipex);
+		file_access(pipex->filename[1], W_OK, pipex);
 		fd[1] = open(pipex->filename[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd[1] == -1)
 			pipex_error(pipex, "open", errno, 1);
@@ -97,6 +97,6 @@ void	dup2stdio_close(int fd[2], t_pipex *pipex)
 		close(*(int *) pipex->openfd->content);
 		tmp = pipex->openfd;
 		pipex->openfd = pipex->openfd->next;
-		ft_lstdelone(&tmp, free);
+		ft_lstdelone(tmp, free);
 	}
 }

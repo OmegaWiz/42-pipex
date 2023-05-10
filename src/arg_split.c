@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 12:43:08 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:51:11 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**arg_split(char *arg, t_pipex *pipex)
 	k = 0;
 	while (k < cnt)
 	{
-		cmd[k] = arg_newsplit(arg, &i);
+		cmd[k] = arg_newsplit(arg, &i, pipex);
 		if (!cmd[k])
 		{
 			// ft_cleararr(cmd, k);
@@ -65,7 +65,7 @@ int	arg_count(char *arg, t_pipex *pipex)
 	return (cnt);
 }
 
-char	*arg_newsplit(char *arg, int *i)
+char	*arg_newsplit(char *arg, int *i, t_pipex *pipex)
 {
 	int		j;
 	int		k;
@@ -83,10 +83,10 @@ char	*arg_newsplit(char *arg, int *i)
 		}
 		(*i)++;
 	}
-	return (arg_trunc_quote(arg, j, *i));
+	return (arg_trunc_quote(arg, j, *i, pipex));
 }
 
-char	*arg_trunc_quote(char *arg, int j, int i)
+char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex)
 {
 	char	*tmp;
 	int		k;
@@ -94,7 +94,7 @@ char	*arg_trunc_quote(char *arg, int j, int i)
 
 	tmp = malloc(sizeof(char) * (i - j + 1));
 	if (!tmp)
-		pipex_error("Malloc failed");
+		pipex_error(pipex, NULL, ALLOC_ERROR, errno);
 	k = 0;
 	while (j + k < i)
 	{
@@ -103,11 +103,14 @@ char	*arg_trunc_quote(char *arg, int j, int i)
 			l = k;
 			j++;
 			while (arg[j + k] && arg[j + k] != arg[l] && j + k < i)
-				tmp[k++] = arg[j + k];
-			j++;
+			{
+				tmp[k] = arg[j + k];
+				k++;
+			}
 		}
 		else
-			tmp[k++] = arg[j + k];
+			tmp[k] = arg[j + k];
+		k++;
 	}
 	tmp[k] = '\0';
 	return (tmp);

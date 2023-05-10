@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 14:11:43 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:39:24 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	null_init(t_pipex *pipex)
 {
+	pipex->is_heredoc = 0;
 	pipex->pcnt = 0;
 	pipex->filename[0] = NULL;
 	pipex->filename[1] = NULL;
@@ -32,7 +33,7 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 	int	i;
 
 	null_init(pipex);
-	pipex->pcnt = argc_handler(argc, argv);
+	pipex->pcnt = argc_handler(argc, argv, pipex);
 	pipex->filename[0] = argv[1];
 	pipex->filename[1] = argv[argc - 1];
 	pipex->envp = envp;
@@ -45,12 +46,12 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 	{
 		if (pipe(pipex->proc[i].pipe) == -1)
 			pipex_error(pipex, "pipe", errno, 1);
-		ft_lstadd_front(&pipex->openfd, ft_lstnew(pipex->proc[i].pipe[0]));
-		ft_lstadd_front(&pipex->openfd, ft_lstnew(pipex->proc[i].pipe[1]));
+		ft_lstadd_front(&pipex->openfd, ft_lstnew(&pipex->proc[i].pipe[0]));
+		ft_lstadd_front(&pipex->openfd, ft_lstnew(&pipex->proc[i].pipe[1]));
 	}
 	while (++i < pipex->pcnt)
 	{
-		pipex->proc[i].cmd = arg_split(argv, i);
+		pipex->proc[i].cmd = arg_split(argv[i + pipex->is_heredoc + 2], pipex);
 		if (!pipex->proc[i].cmd)
 			pipex_error(pipex, "malloc", errno, 1);
 	}
@@ -61,14 +62,31 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
  * B. multiple pipes support
  * B. heredoc support
 */
-int	argc_handler(int argc, char **argv)
+int	argc_handler(int argc, char **argv, t_pipex *pipex)
 {
-	if (argc != 5)
+	if (!BONUS)
 	{
-		ft_putstr_fd("Usage: ./pipex file1 cmd1 cmd2 file2\n", 2);
-		exit(1);
+		if (argc != 5)
+		{
+			ft_putstr_fd("Usage: ./pipex file1 cmd1 cmd2 file2\n", 2);
+			exit(1);
+		}
+		return (2);
 	}
-	return (2);
+	else
+	{
+		if (argc < 5)
+		{
+			ft_putstr_fd("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n", 2);
+			exit(1);
+		}
+		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+		{
+			pipex->is_heredoc = 1;
+			return (argc - 4);
+		}
+		return (argc - 3);
+	}
 }
 
 char	**get_path_from_envp(t_pipex *pipex, char **envp)
