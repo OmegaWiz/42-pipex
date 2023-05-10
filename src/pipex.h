@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 10:14:24 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:45:35 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@
 # include<stdlib.h>
 # include<errno.h>
 # include "../lib/libft/libft.h"
+
+# ifndef STDIN_FILENO
+#  define STDIN_FILENO 0
+# endif
+# ifndef STDOUT_FILENO
+#  define STDOUT_FILENO 1
+# endif
+# ifndef STDERR_FILENO
+#  define STDERR_FILENO 2
+# endif
 
 typedef struct s_process
 {
@@ -48,6 +58,8 @@ char	**get_path_from_envp(t_pipex *pipex, char **envp);
 // pipex_execute.c
 void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum);
 void	find_executable(t_pipex *pipex, int pnum);
+void	file_access(char *filename, int accmode, t_pipex *pipex);
+void	dup2stdio_close(int fd[2], t_pipex *pipex);
 
 void	pipex_free(t_pipex *pipex);
 void	pipex_error(t_pipex *pipex, char *msg, int err, int exitno);
