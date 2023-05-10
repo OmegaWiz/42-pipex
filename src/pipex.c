@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:10:03 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 08:06:16 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/10 08:22:12 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,4 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	return (0);
 }
