@@ -1,0 +1,13 @@
+# production
+/build
+pipex
+*.a
+*.o
+
+# misc
+*.DS_Store
+*.log
+*.out
+*.local
+*.swp
+
