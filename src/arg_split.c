@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 09:17:47 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 09:56:38 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex)
 	printf("debug: |%s|\n", debug);
 	free(debug);
 	if (!tmp)
-		pipex_error(pipex, NULL, ALLOC_ERROR, errno);
+		pipex_error(pipex, "tmp: arg_trunc_quote()", ALLOC_ERROR, errno);
 	k = 0;
 	while (j + k < i)
 	{

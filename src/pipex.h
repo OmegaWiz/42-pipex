@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 14:57:42 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 09:55:14 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	openfd_free(t_list *openfd);
 void	ft_cleararr(char **arr);
 
 // pipex_error.c
-void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int exitno);
+void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int errnum);
 
 // arg_split.c
 char	**arg_split(char *arg, t_pipex *pipex);

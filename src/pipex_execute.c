@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 09:50:47 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 10:09:51 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
 		file_access(pipex->filename[0], R_OK, pipex);
 		fd[0] = open(pipex->filename[0], O_RDONLY);
 		if (fd[0] == -1)
-			pipex_error(pipex, "open", errno, 1);
+			pipex_error(pipex, "open: pipex_exec()", OPEN_ERROR, errno);
 		ft_lstadd_back(&pipex->openfd, ft_lstnew(&fd));
 	}
 	else
@@ -33,7 +33,7 @@ void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
 		file_access(pipex->filename[1], W_OK, pipex);
 		fd[1] = open(pipex->filename[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd[1] == -1)
-			pipex_error(pipex, "open", errno, 1);
+			pipex_error(pipex, "open: pipex_exec()", OPEN_ERROR, errno);
 		ft_lstadd_back(&pipex->openfd, ft_lstnew(&fd));
 	}
 	else
@@ -67,7 +67,7 @@ void	find_executable(t_pipex *pipex, t_process *proc)
 			free(newpath);
 		}
 		if (!b)
-			pipex_error(pipex, proc->cmd[0], 127, 1);
+			pipex_error(pipex, proc->cmd[0], CMD_ERROR, 127);
 	}
 	file_access(proc->cmd[0], X_OK, pipex);
 }
@@ -81,10 +81,10 @@ void	file_access(char *filename, int accmode, t_pipex *pipex)
 	{
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		if (fd == -1)
-			pipex_error(pipex, filename, 2, 1);
+			pipex_error(pipex, "open: file_access()", OPEN_ERROR, errno);
 		fd = close(fd);
 		if (fd == -1)
-			pipex_error(pipex, filename, 2, 1);
+			pipex_error(pipex, "close: file_access()", CLOSE_ERROR, errno);
 	}
 	if (access(filename, F_OK) == -1)
 		pipex_error(pipex, filename, FILE_ERROR, errno);

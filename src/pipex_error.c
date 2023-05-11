@@ -6,24 +6,27 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:36:00 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 09:51:14 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 10:10:42 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int exitno)
+void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int errnum)
 {
-	printf("errno: %d| exitno: %d| errtype: %d| msg: %s\n", errno, exitno, err, msg);
-	pipex_free(pipex);
+	printf("errno: %d| exitno: %d| errtype: %d| msg: %s\n", errno, errnum, err, msg);
 	ft_putstr_fd("bash: ", 2);
 	if (err == CMD_ERROR || err == FILE_ERROR || err == ACCESS_ERROR)
 	{
 		ft_putstr_fd(msg, 2);
 		ft_putstr_fd(": ", 2);
 	}
-	ft_putendl_fd(strerror(exitno), 2);
-	exit(exitno);
+	if (err == CMD_ERROR)
+		ft_putendl_fd("command not found", 2);
+	else
+		ft_putendl_fd(strerror(errnum), 2);
+	pipex_free(pipex);
+	exit(errnum);
 }
 
 void	ft_strerror(t_pipex *pipex, char *msg, enum e_error err, int exitno)

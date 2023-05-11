@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 09:18:16 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 10:12:52 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 	pipex->path = get_path_from_envp(pipex, envp);
 	pipex->proc = malloc(sizeof(t_process) * pipex->pcnt);
 	if (!pipex->proc)
-		pipex_error(pipex, "malloc", errno, 1);
+		pipex_error(pipex, "pipex->proc: pipex_init()", ALLOC_ERROR, errno);
 	i = pipex->pcnt - 1;
 	while (--i >= 0)
 	{
 		if (pipe(pipex->proc[i].pipe) == -1)
-			pipex_error(pipex, "pipe", errno, 1);
+			pipex_error(pipex, "pipe: pipex_init()", PIPE_ERROR, errno);
 		ft_lstadd_front(&pipex->openfd, ft_lstnew(&pipex->proc[i].pipe[0]));
 		ft_lstadd_front(&pipex->openfd, ft_lstnew(&pipex->proc[i].pipe[1]));
 	}
@@ -55,7 +55,7 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 		for (int j = 0; pipex->proc[i].cmd[j]; j++)
 			printf("cmd: |%s|\n", pipex->proc[i].cmd[j]);
 		if (!pipex->proc[i].cmd)
-			pipex_error(pipex, "malloc", errno, 1);
+			pipex_error(pipex, "proc[i].cmd: pipex_init()", ALLOC_ERROR, 1);
 	}
 }
 
