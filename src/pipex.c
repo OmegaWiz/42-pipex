@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:10:03 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 15:19:27 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 09:49:09 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		pipex.proc[i].pid = fork();
 		if (pipex.proc[i].pid == -1)
-			pipex_error(&pipex, "fork", errno, 1);
+			pipex_error(&pipex, "fork", errno, errno);
 		else if (pipex.proc[i].pid == 0)
 			pipex_exec(&pipex, &pipex.proc[i], i);
 		else

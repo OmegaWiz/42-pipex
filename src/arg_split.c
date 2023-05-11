@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 15:19:02 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 09:17:47 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ char	**arg_split(char *arg, t_pipex *pipex)
 			// ft_cleararr(cmd, k);
 			// pipex_error("Malloc failed");
 		}
+		printf("truncated: |%s|\n", cmd[k]);
 		k++;
 	}
 	cmd[k] = NULL;
+	printf("NULL-terminated at k=%d\n", k);
 	return (cmd);
 }
 
@@ -46,18 +48,32 @@ int	arg_count(char *arg, t_pipex *pipex)
 
 	cnt = 0;
 	i = 0;
+	ft_putendl_fd(arg, 1);
 	while (arg[i])
 	{
 		while (arg[i] && is_ws_or_brac(arg[i], 1))
+		{
+			ft_putnbr_fd(i, 1);
+			ft_putchar_fd(' ', 1);
+			ft_putendl_fd(ft_itoa(arg[i]), 1);
 			i++;
+		}
 		j = i;
 		while (arg[i] && !is_ws_or_brac(arg[i], 1))
 		{
+			ft_putnbr_fd(i, 1);
+			ft_putchar_fd(' ', 1);
+			ft_putendl_fd(ft_itoa(arg[i]), 1);
 			if (is_ws_or_brac(arg[i], 0))
 			{
 				k = i++;
 				while (arg[i] && arg[i] != arg[k])
+				{
+			ft_putnbr_fd(i, 1);
+			ft_putchar_fd(' ', 1);
+					ft_putendl_fd(ft_itoa(arg[i]), 1);
 					i++;
+				}
 			}
 			i++;
 		}
@@ -78,7 +94,7 @@ char	*arg_newsplit(char *arg, int *i, t_pipex *pipex)
 	{
 		if (is_ws_or_brac(arg[*i], 0))
 		{
-			k = *i;
+			k = (*i)++;
 			while (arg[*i] && arg[*i] != arg[k])
 				(*i)++;
 		}
@@ -94,6 +110,9 @@ char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex)
 	int		l;
 
 	tmp = malloc(sizeof(char) * (i - j + 1));
+	char *debug = ft_substr(arg, j, i - j);
+	printf("debug: |%s|\n", debug);
+	free(debug);
 	if (!tmp)
 		pipex_error(pipex, NULL, ALLOC_ERROR, errno);
 	k = 0;
@@ -101,17 +120,20 @@ char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex)
 	{
 		if (is_ws_or_brac(arg[j + k], 0))
 		{
-			l = k;
+			l = j + k;
 			j++;
 			while (arg[j + k] && arg[j + k] != arg[l] && j + k < i)
 			{
 				tmp[k] = arg[j + k];
 				k++;
 			}
+			j++;
 		}
 		else
+		{
 			tmp[k] = arg[j + k];
-		k++;
+			k++;
+		}
 	}
 	tmp[k] = '\0';
 	return (tmp);

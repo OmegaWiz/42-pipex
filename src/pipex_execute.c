@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 17:42:39 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 09:50:47 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	file_access(char *filename, int accmode, t_pipex *pipex)
 			pipex_error(pipex, filename, 2, 1);
 	}
 	if (access(filename, F_OK) == -1)
-		pipex_error(pipex, filename, 2, 1);
+		pipex_error(pipex, filename, FILE_ERROR, errno);
 	if (access(filename, accmode) == -1)
-		pipex_error(pipex, filename, 2, 1);
+		pipex_error(pipex, filename, ACCESS_ERROR, errno);
 }
 
 //	Redirect the standard input and output to the pipe and close the open file

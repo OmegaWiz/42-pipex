@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:36:00 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 15:20:04 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 09:51:14 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int exitno)
 {
+	printf("errno: %d| exitno: %d| errtype: %d| msg: %s\n", errno, exitno, err, msg);
 	pipex_free(pipex);
 	ft_putstr_fd("bash: ", 2);
 	if (err == CMD_ERROR || err == FILE_ERROR || err == ACCESS_ERROR)
