@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 10:25:35 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:21:54 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	**get_path_from_envp(t_pipex *pipex, char **envp)
 		{
 			path = ft_split(envp[i] + 5, ':');
 			if (!path)
-				return (NULL);
+				pipex_error(pipex, "path: get_path_from_envp()", ALLOC_ERROR, 1);
 			return (path);
 		}
 		i++;

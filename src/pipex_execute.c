@@ -6,18 +6,17 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 10:09:51 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:22:17 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 //	Execute the command in the child process
-void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
+void	pipex_exec(t_pipex *pipex, int pnum)
 {
 	int	fd[2];
 
-	find_executable(pipex, &pipex->proc[pnum]);
 	if (pnum == 0)
 	{
 		file_access(pipex->filename[0], R_OK, pipex);
@@ -38,6 +37,7 @@ void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
 	}
 	else
 		fd[1] = pipex->proc[pnum].pipe[1];
+	find_executable(pipex, &pipex->proc[pnum]);
 	dup2stdio_close(fd, pipex);
 	execve(pipex->proc[pnum].cmd[0], pipex->proc[pnum].cmd, pipex->envp);
 }

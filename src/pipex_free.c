@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:12:13 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 17:31:04 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:25:36 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	pipex_free(t_pipex *pipex)
 {
 	int		i;
-	t_list	*tmp;
 
 	i = -1;
 	if (pipex->proc)

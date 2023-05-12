@@ -6,7 +6,7 @@
 #    By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 10:18:10 by kkaiyawo          #+#    #+#              #
-#    Updated: 2023/05/10 14:59:12 by kkaiyawo         ###   ########.fr        #
+#    Updated: 2023/05/11 17:21:04 by kkaiyawo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ OBJ				=	${SRC:.c=.o}
 
 CC				=	gcc
 CFLAG			=	-g -Wall -Wextra -Werror -O3 -fsanitize=address
+CFLAG_BONUS		=	-D BONUS=1
 
 all:			${LIB} ${BUILD_DIR} ${NAME}
 
@@ -47,7 +48,7 @@ ${BUILD_DIR}:
 					mkdir -p ${BUILD_DIR}
 
 ${BUILD_DIR}%.o:${SRC_DIR}%.c
-						${CC} -c -o $@ $^
+						${CC} ${CFLAG} -c -o $@ $^
 
 ${NAME}:		${OBJ}
 					${CC} ${OBJ} ${wildcard ${LIB_DIR}*/*.a} -o ${NAME} ${CFLAG}

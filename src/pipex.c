@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:10:03 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 10:13:02 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:26:49 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@ int	main(int argc, char **argv, char **envp)
 		if (pipex.proc[i].pid == -1)
 			pipex_error(&pipex, "fork: main()", FORK_ERROR, errno);
 		else if (pipex.proc[i].pid == 0)
-			pipex_exec(&pipex, &pipex.proc[i], i);
+			pipex_exec(&pipex, i);
 		else
 			i++;
 	}
-	pipex_free(&pipex);
 	i = 0;
 	while (i < pipex.pcnt)
-		waitpid(pipex.proc[i++].pid, &status, 0);
+	{
+		waitpid(pipex.proc[i].pid, &status, 0);
+		printf("pid: %d\n", pipex.proc[i].pid);
+		i++;
+	}
+	pipex_free(&pipex);
 	return (WEXITSTATUS(status));
 }
