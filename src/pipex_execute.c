@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 10:09:51 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:19:22 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
 		ft_lstadd_back(&pipex->openfd, ft_lstnew(&fd));
 	}
 	else
-		fd[0] = pipex->proc[pnum - 1].pipe[0];
+		fd[0] = check_inpipe(pipex->proc[pnum - 1], 0, pipex);
 	if (pnum == pipex->pcnt - 1)
 	{
 		file_access(pipex->filename[1], W_OK, pipex);
@@ -37,7 +37,7 @@ void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
 		ft_lstadd_back(&pipex->openfd, ft_lstnew(&fd));
 	}
 	else
-		fd[1] = pipex->proc[pnum].pipe[1];
+		fd[1] = check_inpipe(pipex->proc[pnum], 1, pipex);
 	dup2stdio_close(fd, pipex);
 	execve(pipex->proc[pnum].cmd[0], pipex->proc[pnum].cmd, pipex->envp);
 }

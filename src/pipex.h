@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 09:55:14 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:19:29 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum);
 void	find_executable(t_pipex *pipex, t_process *proc);
 void	file_access(char *filename, int accmode, t_pipex *pipex);
 void	dup2stdio_close(int fd[2], t_pipex *pipex);
+
+// pipex_file.c
+int		check_inpipe(t_process proc, int openside, t_pipex *pipex);
 
 // pipex_free.c
 void	pipex_free(t_pipex *pipex);
