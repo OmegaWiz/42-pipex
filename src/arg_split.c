@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 14:21:39 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:12:02 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**arg_split(char *arg, t_pipex *pipex)
 
 	cnt = arg_count(arg);
 	cmd = malloc(sizeof(char *) * (cnt + 1));
+	if (!cmd)
+		pipex_error(pipex, "cmd: arg_split()", ALLOC_ERROR, errno);
 	i = 0;
 	k = 0;
 	while (k < cnt)

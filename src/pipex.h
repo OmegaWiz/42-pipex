@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 14:11:25 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:13:32 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@
 # ifndef STDERR_FILENO
 #  define STDERR_FILENO 2
 # endif
-
-# define BONUS 0
+# ifndef BONUS
+#  define BONUS 0
+# endif
 
 typedef struct s_process
 {
@@ -101,6 +102,6 @@ int		is_ws_or_brac(char c, int is_ws);
 //
 
 // ft_strprepend.c
-char	*ft_strprepend(char *s1, char *s2);
+char	*ft_strprepend(char *s1, char *s2, t_pipex *pipex);
 
 #endif
