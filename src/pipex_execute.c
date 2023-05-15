@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 13:58:35 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:22:21 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	find_executable(t_pipex *pipex, t_process *proc)
 				free(proc->cmd[0]);
 				proc->cmd[0] = newpath;
 				b = 1;
-				break;
+				break ;
 			}
 			free(newpath);
 		}
@@ -135,5 +135,4 @@ void	close_check(int fd, t_pipex *pipex, int pnum)
 	(void) pnum;
 	if (close(fd) == -1)
 		pipex_error(pipex, "close: dup2stdio_close()", CLOSE_ERROR, errno);
-	//dprintf(2, "process #%d closed %d\n", pnum, fd);
 }

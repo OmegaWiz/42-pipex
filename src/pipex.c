@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:10:03 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 10:04:55 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:08:54 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	main(int argc, char **argv, char **envp)
 	while (i < pipex.pcnt)
 	{
 		waitpid(pipex.proc[i].pid, &status, 0);
-		//dprintf(2, "process #%d returns %d\n", pipex.proc[i].pid, status);
 		i++;
 	}
 	pipex_free(&pipex);

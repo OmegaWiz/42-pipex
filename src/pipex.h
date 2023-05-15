@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 10:05:33 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:11:25 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		arg_count(char *arg);
 char	*arg_newsplit(char *arg, int *i, t_pipex *pipex);
 char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex);
 int		is_ws_or_brac(char c, int is_ws);
+//
 
 // ft_strprepend.c
 char	*ft_strprepend(char *s1, char *s2);
