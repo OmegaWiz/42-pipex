@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 10:25:35 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 10:04:50 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 void	null_init(t_pipex *pipex)
 {
-	pipex->is_heredoc = 0;
 	pipex->pcnt = 0;
+	pipex->is_heredoc = 0;
 	pipex->filename[0] = NULL;
 	pipex->filename[1] = NULL;
 	pipex->envp = NULL;
 	pipex->path = NULL;
 	pipex->proc = NULL;
-	pipex->openfd = NULL;
 }
 
 //	t_pipex initialization
@@ -46,12 +45,13 @@ void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp)
 	{
 		if (pipe(pipex->proc[i].pipe) == -1)
 			pipex_error(pipex, "pipe: pipex_init()", PIPE_ERROR, errno);
-		ft_lstadd_front(&pipex->openfd, ft_lstnew(&pipex->proc[i].pipe[0]));
-		ft_lstadd_front(&pipex->openfd, ft_lstnew(&pipex->proc[i].pipe[1]));
+		//dprintf(2, "init; proc: %d, read: %d, write: %d\n", i, pipex->proc[i].pipe[0], pipex->proc[i].pipe[1]);
 	}
 	while (++i < pipex->pcnt)
 	{
 		pipex->proc[i].cmd = arg_split(argv[i + pipex->is_heredoc + 2], pipex);
+		for (int j = 0; pipex->proc[i].cmd[j]; j++)
+			//dprintf(2, "cmd[%d][%d]: |%s|\n", i, j, pipex->proc[i].cmd[j]);
 		if (!pipex->proc[i].cmd)
 			pipex_error(pipex, "proc[i].cmd: pipex_init()", ALLOC_ERROR, 1);
 	}
@@ -101,7 +101,8 @@ char	**get_path_from_envp(t_pipex *pipex, char **envp)
 		{
 			path = ft_split(envp[i] + 5, ':');
 			if (!path)
-				return (NULL);
+				pipex_error(pipex, "path: get_path_from_envp()", ALLOC_ERROR,
+				errno);
 			return (path);
 		}
 		i++;

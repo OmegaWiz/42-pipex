@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 10:25:31 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:36:09 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ char	**arg_split(char *arg, t_pipex *pipex)
 	int		i;
 	int		k;
 
-	cnt = arg_count(arg, pipex);
-	cmd = malloc(sizeof(char *) * cnt + 1);
+	cnt = arg_count(arg);
+	cmd = malloc(sizeof(char *) * (cnt + 1));
 	i = 0;
 	k = 0;
 	while (k < cnt)
@@ -29,7 +29,7 @@ char	**arg_split(char *arg, t_pipex *pipex)
 		if (!cmd[k])
 		{
 			// ft_cleararr(cmd, k);
-			// pipex_error("Malloc failed");
+			pipex_error(pipex, "cmd: arg_split()", ALLOC_ERROR, errno);
 		}
 		k++;
 	}
@@ -37,7 +37,7 @@ char	**arg_split(char *arg, t_pipex *pipex)
 	return (cmd);
 }
 
-int	arg_count(char *arg, t_pipex *pipex)
+int	arg_count(char *arg)
 {
 	int	i;
 	int	j;

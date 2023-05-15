@@ -6,14 +6,14 @@
 #    By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 10:18:10 by kkaiyawo          #+#    #+#              #
-#    Updated: 2023/05/12 16:01:46 by kkaiyawo         ###   ########.fr        #
+#    Updated: 2023/05/15 10:05:38 by kkaiyawo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	pipex
 
 SRCS			=	pipex.c pipex_init.c pipex_execute.c pipex_free.c \
-					pipex_error.c arg_split.c ft_strprepend.c pipex_file.c
+					pipex_error.c arg_split.c ft_strprepend.c
 LIBS			=	libft/libft.a
 
 SRC_DIR			=	./src/
@@ -47,7 +47,7 @@ ${BUILD_DIR}:
 					mkdir -p ${BUILD_DIR}
 
 ${BUILD_DIR}%.o:${SRC_DIR}%.c
-						${CC} -c -o $@ $^
+						${CC} ${CFLAG} -c -o $@ $^
 
 ${NAME}:		${OBJ}
 					${CC} ${OBJ} ${wildcard ${LIB_DIR}*/*.a} -o ${NAME} ${CFLAG}

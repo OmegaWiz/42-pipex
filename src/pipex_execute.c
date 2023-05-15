@@ -6,39 +6,39 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/12 16:19:22 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:58:35 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 //	Execute the command in the child process
-void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum)
+void	pipex_exec(t_pipex *pipex, int pnum)
 {
 	int	fd[2];
 
-	find_executable(pipex, &pipex->proc[pnum]);
+	if (pnum == pipex->pcnt - 1)
+		file_access(pipex->filename[1], W_OK, pipex);
 	if (pnum == 0)
 	{
 		file_access(pipex->filename[0], R_OK, pipex);
 		fd[0] = open(pipex->filename[0], O_RDONLY);
 		if (fd[0] == -1)
 			pipex_error(pipex, "open: pipex_exec()", OPEN_ERROR, errno);
-		ft_lstadd_back(&pipex->openfd, ft_lstnew(&fd));
 	}
 	else
-		fd[0] = check_inpipe(pipex->proc[pnum - 1], 0, pipex);
+		fd[0] = pipex->proc[pnum - 1].pipe[0];
 	if (pnum == pipex->pcnt - 1)
 	{
 		file_access(pipex->filename[1], W_OK, pipex);
 		fd[1] = open(pipex->filename[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd[1] == -1)
 			pipex_error(pipex, "open: pipex_exec()", OPEN_ERROR, errno);
-		ft_lstadd_back(&pipex->openfd, ft_lstnew(&fd));
 	}
 	else
-		fd[1] = check_inpipe(pipex->proc[pnum], 1, pipex);
-	dup2stdio_close(fd, pipex);
+		fd[1] = pipex->proc[pnum].pipe[1];
+	find_executable(pipex, &pipex->proc[pnum]);
+	dup2stdio_close(fd, pnum, pipex);
 	execve(pipex->proc[pnum].cmd[0], pipex->proc[pnum].cmd, pipex->envp);
 }
 
@@ -79,31 +79,61 @@ void	file_access(char *filename, int accmode, t_pipex *pipex)
 
 	if (accmode == W_OK && access(filename, F_OK) == -1)
 	{
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 			pipex_error(pipex, "open: file_access()", OPEN_ERROR, errno);
 		fd = close(fd);
 		if (fd == -1)
 			pipex_error(pipex, "close: file_access()", CLOSE_ERROR, errno);
 	}
+	if (accmode == X_OK)
+	{
+		if (access(filename, F_OK) == -1)
+			pipex_error(pipex, filename, CMD_ERROR, 127);
+	}
 	if (access(filename, F_OK) == -1)
 		pipex_error(pipex, filename, FILE_ERROR, errno);
-	if (access(filename, accmode) == -1)
-		pipex_error(pipex, filename, ACCESS_ERROR, errno);
+	else
+	{
+		if (access(filename, accmode) == -1)
+			pipex_error(pipex, filename, ACCESS_ERROR, errno);
+	}
 }
 
 //	Redirect the standard input and output to the pipe and close the open file
-void	dup2stdio_close(int fd[2], t_pipex *pipex)
+void	dup2stdio_close(int fd[2], int pnum, t_pipex *pipex)
 {
-	t_list	*tmp;
+	int	i;
 
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
-	while (pipex->openfd)
+	i = -1;
+	while (++i < pipex->pcnt - 1)
 	{
-		close(*(int *) pipex->openfd->content);
-		tmp = pipex->openfd;
-		pipex->openfd = pipex->openfd->next;
-		free(tmp);
+		if (i == pnum - 1)
+		{
+			if (pnum != 0)
+				close_check(pipex->proc[i].pipe[1], pipex, pnum);
+		}
+		else if (i == pnum)
+		{
+			if (pnum != pipex->pcnt - 1)
+				close_check(pipex->proc[i].pipe[0], pipex, pnum);
+		}
+		else
+		{
+			close_check(pipex->proc[i].pipe[0], pipex, pnum);
+			close_check(pipex->proc[i].pipe[1], pipex, pnum);
+		}
 	}
+	dup2(fd[0], STDIN_FILENO);
+	close_check(fd[0], pipex, pnum);
+	dup2(fd[1], STDOUT_FILENO);
+	close_check(fd[1], pipex, pnum);
+}
+
+void	close_check(int fd, t_pipex *pipex, int pnum)
+{
+	(void) pnum;
+	if (close(fd) == -1)
+		pipex_error(pipex, "close: dup2stdio_close()", CLOSE_ERROR, errno);
+	//dprintf(2, "process #%d closed %d\n", pnum, fd);
 }

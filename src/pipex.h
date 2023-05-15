@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/12 16:19:29 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 10:05:33 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_pipex
 	char		**envp;
 	char		**path;
 	t_process	*proc;
-	t_list		*openfd;
 }				t_pipex;
 
 enum e_error
@@ -68,6 +67,9 @@ enum e_error
 	ALLOC_ERROR,
 };
 
+// pipex.c
+void	closepipe_main(t_pipex *pipex);
+
 // pipex_init.c
 void	null_init(t_pipex *pipex);
 void	pipex_init(t_pipex *pipex, int argc, char **argv, char **envp);
@@ -75,17 +77,16 @@ int		argc_handler(int argc, char **argv, t_pipex *pipex);
 char	**get_path_from_envp(t_pipex *pipex, char **envp);
 
 // pipex_execute.c
-void	pipex_exec(t_pipex *pipex, t_process *proc, int pnum);
+void	pipex_exec(t_pipex *pipex, int pnum);
 void	find_executable(t_pipex *pipex, t_process *proc);
 void	file_access(char *filename, int accmode, t_pipex *pipex);
-void	dup2stdio_close(int fd[2], t_pipex *pipex);
-
-// pipex_file.c
-int		check_inpipe(t_process proc, int openside, t_pipex *pipex);
+void	dup2stdio_close(int fd[2], int pnum, t_pipex *pipex);
+void	close_check(int fd, t_pipex *pipex, int pnum);
+//
 
 // pipex_free.c
 void	pipex_free(t_pipex *pipex);
-void	openfd_free(t_list *openfd);
+void	file_free(t_pipex *pipex);
 void	ft_cleararr(char **arr);
 
 // pipex_error.c
@@ -93,7 +94,7 @@ void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int errnum);
 
 // arg_split.c
 char	**arg_split(char *arg, t_pipex *pipex);
-int		arg_count(char *arg, t_pipex *pipex);
+int		arg_count(char *arg);
 char	*arg_newsplit(char *arg, int *i, t_pipex *pipex);
 char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex);
 int		is_ws_or_brac(char c, int is_ws);

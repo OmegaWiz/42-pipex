@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:36:00 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/11 10:25:23 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 09:20:30 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int errnum)
 		ft_putendl_fd("command not found", 2);
 	else
 		ft_putendl_fd(strerror(errnum), 2);
+	file_free(pipex);
 	pipex_free(pipex);
 	exit(errnum);
 }

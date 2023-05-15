@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:12:13 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/10 17:31:04 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 09:20:04 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	pipex_free(t_pipex *pipex)
 {
-	int		i;
-	t_list	*tmp;
+	int	i;
 
 	i = -1;
 	if (pipex->proc)
@@ -29,20 +28,20 @@ void	pipex_free(t_pipex *pipex)
 	}
 	if (pipex->path)
 		ft_cleararr(pipex->path);
-	openfd_free(pipex->openfd);
 }
 
-void	openfd_free(t_list *openfd)
+void	file_free(t_pipex *pipex)
 {
-	t_list	*tmp;
+	int	i;
 
-	while (openfd)
+	i = -1;
+	if (pipex->proc)
 	{
-		tmp = openfd;
-		openfd = openfd->next;
-		if (tmp->content)
-			close(*(int *) tmp->content);
-		free(tmp);
+		while (++i < pipex->pcnt - 1)
+		{
+			close(pipex->proc[i].pipe[0]);
+			close(pipex->proc[i].pipe[1]);
+		}
 	}
 }
 
