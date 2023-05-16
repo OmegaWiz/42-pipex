@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 14:22:21 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:51:33 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	find_executable(t_pipex *pipex, t_process *proc)
 		newpath = NULL;
 		while (pipex->path[++i] && !b)
 		{
-			newpath = ft_strprepend(proc->cmd[0], pipex->path[i]);
+			newpath = ft_strprepend(proc->cmd[0], pipex->path[i], pipex);
 			if (access(newpath, X_OK) == 0)
 			{
 				free(proc->cmd[0]);
@@ -86,7 +86,7 @@ void	file_access(char *filename, int accmode, t_pipex *pipex)
 		if (fd == -1)
 			pipex_error(pipex, "close: file_access()", CLOSE_ERROR, errno);
 	}
-	if (accmode == X_OK)
+	if (accmode == X_OK && !ft_strchr(filename, '/'))
 	{
 		if (access(filename, F_OK) == -1)
 			pipex_error(pipex, filename, CMD_ERROR, 127);

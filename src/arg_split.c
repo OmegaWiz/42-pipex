@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 15:12:02 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:51:46 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**arg_split(char *arg, t_pipex *pipex)
 	cmd[k] = NULL;
 	return (cmd);
 }
-
+/*
 int	arg_count(char *arg)
 {
 	int	i;
@@ -46,8 +46,7 @@ int	arg_count(char *arg)
 	int	k;
 	int	cnt;
 
-	cnt = 0;
-	i = 0;
+	set_zero(&i, &cnt);
 	while (arg[i])
 	{
 		while (arg[i] && is_ws_or_brac(arg[i], 1))
@@ -66,6 +65,34 @@ int	arg_count(char *arg)
 		cnt++;
 	}
 	return (cnt);
+}
+*/
+
+int	arg_count(char *arg)
+{
+	int	i[4];
+
+	set_zero(i, i + 3);
+	while (arg[i[0]])
+	{
+		while (arg[i[0]] && is_ws_or_brac(arg[i[0]], 1))
+			i[0]++;
+		if (!arg[i[0]])
+			break ;
+		i[1] = i[0];
+		while (arg[i[0]] && !is_ws_or_brac(arg[i[0]], 1))
+		{
+			if (is_ws_or_brac(arg[i[0]], 0))
+			{
+				i[2] = i[0]++;
+				while (arg[i[0]] && arg[i[0]] != arg[i[2]])
+					i[0]++;
+			}
+			i[0]++;
+		}
+		i[3]++;
+	}
+	return (i[3]);
 }
 
 char	*arg_newsplit(char *arg, int *i, t_pipex *pipex)
@@ -94,9 +121,7 @@ char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex)
 	char	*tmp;
 	int		k[2];
 
-	tmp = malloc(sizeof(char) * (i - j + 1));
-	if (!tmp)
-		pipex_error(pipex, "tmp: arg_trunc_quote()", ALLOC_ERROR, errno);
+	tmp = (char *) pipex_malloc(sizeof(char) * (i - j + 1), "arg_trunc", pipex);
 	k[0] = 0;
 	while (j + k[0] < i)
 	{
@@ -108,7 +133,10 @@ char	*arg_trunc_quote(char *arg, int j, int i, t_pipex *pipex)
 		{
 			k[1] = k[0] + j++;
 			while (arg[j + k[0]] && arg[j + k[0]] != arg[k[1]] && j + k[0] < i)
-				tmp[k[0]] = arg[k[0] + j++];
+			{
+				tmp[k[0]] = arg[k[0] + j];
+				k[0]++;
+			}
 			j++;
 		}
 	}

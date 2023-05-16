@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:09:15 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 15:13:32 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:38:08 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ void	ft_cleararr(char **arr);
 
 // pipex_error.c
 void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int errnum);
+
+// pipex_malloc.c
+void	*pipex_malloc(size_t size, char *func, t_pipex *pipex);
+void	set_zero(int *i, int *j);
 
 // arg_split.c
 char	**arg_split(char *arg, t_pipex *pipex);

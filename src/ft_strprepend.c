@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:57:22 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 15:13:41 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:51:16 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ char	*ft_strprepend(char *s1, char *s2, t_pipex *pipex)
 {
 	char	*str;
 
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	if (s1[0] == '\0')
+		return (NULL);
 	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 2));
 	if (!str)
 		pipex_error(pipex, "ft_strprepend()", ALLOC_ERROR, errno);

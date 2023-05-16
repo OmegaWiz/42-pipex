@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   pipex_malloc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 16:41:49 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 15:59:11 by kkaiyawo         ###   ########.fr       */
+/*   Created: 2023/05/15 16:24:47 by kkaiyawo          #+#    #+#             */
+/*   Updated: 2023/05/15 16:38:01 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex.h"
 
-char	*ft_strchr(const char *s, int c)
+void	*pipex_malloc(size_t size, char *func, t_pipex *pipex)
 {
-	int		i;
+	void	*ptr;
 
-	c %= 256;
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (s[0] == 0 && c != 0)
-		return (NULL);
-	while (s[i])
-	{
-		if (s[i] == c)
-			return ((char *)(s + i));
-		i++;
-	}
-	if (s[i] == c)
-		return ((char *)(s + i));
-	return (NULL);
+	ptr = malloc(size);
+	if (!ptr)
+		pipex_error(pipex, func, ALLOC_ERROR, errno);
+	return (ptr);
+}
+
+void	set_zero(int *i, int *j)
+{
+	*i = 0;
+	*j = 0;
 }
