@@ -6,11 +6,11 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/16 08:48:01 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/16 08:52:00 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 char	**arg_split(char *arg, t_pipex *pipex)
 {

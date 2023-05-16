@@ -6,11 +6,11 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:47:54 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/16 08:49:33 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/16 08:52:25 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 //	Execute the command in the child process
 void	pipex_exec(t_pipex *pipex, int pnum)

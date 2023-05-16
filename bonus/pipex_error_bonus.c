@@ -6,11 +6,11 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:36:00 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/16 08:49:22 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/16 08:52:18 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	pipex_error(t_pipex *pipex, char *msg, enum e_error err, int errnum)
 {

@@ -6,7 +6,7 @@
 #    By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 10:18:10 by kkaiyawo          #+#    #+#              #
-#    Updated: 2023/05/16 08:44:14 by kkaiyawo         ###   ########.fr        #
+#    Updated: 2023/05/16 08:51:46 by kkaiyawo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,9 @@ ${BUILD_DIR}:
 					mkdir -p ${BUILD_DIR}
 
 ${BUILD_DIR}%.o:${SRC_DIR}%.c
+						${CC} ${CFLAG} -c -o $@ $^
+
+${BUILD_DIR}%.o:${BONUS_DIR}%.c
 						${CC} ${CFLAG} -c -o $@ $^
 
 clean:
