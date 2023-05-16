@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 08:29:12 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 15:07:25 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/16 08:37:24 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	argc_handler(int argc, char **argv, t_pipex *pipex)
 	{
 		if (argc < 5)
 		{
-			ft_putstr_fd("Usage: ./pipex file1 cmd1 cmd2 ... cmdn file2\n", 2);
+			ft_putstr_fd("Usage: ./pipex file1 cmd1 ... cmdn file2\n", 2);
 			exit(1);
 		}
 		if (ft_strncmp(argv[1], "here_doc", 8) == 0)

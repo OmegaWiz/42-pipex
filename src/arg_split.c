@@ -6,7 +6,7 @@
 /*   By: kkaiyawo <kkaiyawo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 11:17:10 by kkaiyawo          #+#    #+#             */
-/*   Updated: 2023/05/15 16:51:46 by kkaiyawo         ###   ########.fr       */
+/*   Updated: 2023/05/16 08:36:41 by kkaiyawo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,6 @@ char	**arg_split(char *arg, t_pipex *pipex)
 	cmd[k] = NULL;
 	return (cmd);
 }
-/*
-int	arg_count(char *arg)
-{
-	int	i;
-	int	j;
-	int	k;
-	int	cnt;
-
-	set_zero(&i, &cnt);
-	while (arg[i])
-	{
-		while (arg[i] && is_ws_or_brac(arg[i], 1))
-			i++;
-		j = i;
-		while (arg[i] && !is_ws_or_brac(arg[i], 1))
-		{
-			if (is_ws_or_brac(arg[i], 0))
-			{
-				k = i++;
-				while (arg[i] && arg[i] != arg[k])
-					i++;
-			}
-			i++;
-		}
-		cnt++;
-	}
-	return (cnt);
-}
-*/
 
 int	arg_count(char *arg)
 {
